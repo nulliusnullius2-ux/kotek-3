@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>CAT_DANCE.exe</title>
+
+<style>
+
+html,body{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    background:black;
+    font-family:Consolas,monospace;
+    height:100%;
+    color:#00ff66;
+}
+
+/* MATRIX */
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:0;
+}
+
+/* TERMINAL */
+
+#terminal{
+    position:absolute;
+    left:0;
+    top:0;
+    width:40%;
+    height:100%;
+    overflow:hidden;
+    padding:12px;
+    box-sizing:border-box;
+    border-right:1px solid #00ff66;
+    font-size:12px;
+    line-height:14px;
+    text-shadow:0 0 5px #00ff66;
+    z-index:3;
+}
+
+/* CAT AREA */
+
+#catArea{
+    position:absolute;
+    right:0;
+    top:0;
+    width:60%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:3;
+}
+
+#cat{
+    white-space:pre;
+    color:#00ff66;
+
+    font-size:28px;
+    line-height:28px;
+
+    text-shadow:
+    0 0 5px #00ff66,
+    0 0 10px #00ff66,
+    0 0 20px #00ff66,
+    0 0 40px #00ff66;
+
+    transform-origin:center;
+    transition:transform 0.05s linear;
+}
+
+#hacked{
+    margin-top:25px;
+    font-size:48px;
+    letter-spacing:6px;
+    color:#00ff66;
+    text-shadow:
+    0 0 10px #00ff66,
+    0 0 20px #00ff66;
+    animation:flash 0.5s infinite;
+}
+
+@keyframes flash{
+    0%{opacity:1;}
+    50%{opacity:0.25;}
+    100%{opacity:1;}
+}
+
+#warning{
+    position:fixed;
+    bottom:10px;
+    right:15px;
+    font-size:13px;
+    opacity:0.7;
+    z-index:5;
+}
+
+</style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div id="terminal"></div>
+
+<div id="catArea">
+
+<pre id="cat"></pre>
+
+<div id="hacked">You ∆®€ #∆Cked</div>
+
+</div>
+
+<div id="warning">
+SIMULATION MODE ENABLED
+</div>
+
+<script>
+
+/* =========================
+   MATRIX
+========================= */
+
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+const letters =
+"アァカサタナハマヤャラワABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+const size = 14;
+const columns = Math.floor(canvas.width / size);
+
+const drops = [];
+
+for(let i=0;i<columns;i++){
+    drops[i]=1;
+}
+
+function matrix(){
+
+    ctx.fillStyle="rgba(0,0,0,0.06)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle="#00ff66";
+    ctx.font=size+"px monospace";
+
+    for(let i=0;i<drops.length;i++){
+
+        const text =
+        letters[Math.floor(Math.random()*letters.length)];
+
+        ctx.fillText(text,i*size,drops[i]*size);
+
+        if(drops[i]*size > canvas.height &&
+            Math.random()>0.975){
+
+            drops[i]=0;
+        }
+
+        drops[i]++;
+    }
+}
+
+setInterval(matrix,33);
+
+/* =========================
+   TERMINAL
+========================= */
+
+const terminal = document.getElementById("terminal");
+
+const logs = [
+
+"Injecting runtime sequence...",
+"Loading CAT_DANCE.exe...",
+"Compiling movement engine...",
+"Streaming neural packets...",
+"Opening symbolic tunnel...",
+"Uploading fake payload...",
+"Synchronizing matrix nodes...",
+"Decrypting binary fragments...",
+"Executing feline renderer...",
+"Allocating dance memory...",
+"Processing motion vectors...",
+"Launching terminal override...",
+"Streaming encrypted blocks...",
+"Injecting visual corruption...",
+"Rendering fake infection...",
+"Opening animation thread...",
+"Executing dance protocol...",
+"Activating terminal flood...",
+"Synchronizing movement AI..."
+];
+
+function randomHex(len){
+
+    const chars="ABCDEF0123456789";
+
+    let out="";
+
+    for(let i=0;i<len;i++){
+
+        out += chars[Math.floor(Math.random()*chars.length)];
+    }
+
+    return out;
+}
+
+function addLog(){
+
+    const log =
+    "[" + new Date().toLocaleTimeString() + "] "
+    + logs[Math.floor(Math.random()*logs.length)]
+    + " 0x" + randomHex(36);
+
+    terminal.innerHTML += log + "<br>";
+
+    terminal.scrollTop = terminal.scrollHeight;
+
+    if(terminal.innerHTML.length > 100000){
+
+        terminal.innerHTML =
+        terminal.innerHTML.slice(-70000);
+    }
+}
+
+setInterval(addLog,30);
+
+/* =========================
+   BIG DANCING CAT
+========================= */
+
+const cat = document.getElementById("cat");
+
+const frames = [
+
+String.raw`
+ /\_/\\
+( o.o )
+ > ^ <
+/|   |\
+/_| |_\
+`,
+
+String.raw`
+ /\_/\\
+( ^.^ )
+ / ^ \
+/|   |\
+ /| |\
+`,
+
+String.raw`
+ /\_/\\
+( >.< )
+ < ^ >
+\|   |/
+/_| |_\
+`,
+
+String.raw`
+ /\_/\\
+( o.o )
+ / v \
+/|   |\
+ /   \
+`,
+
+String.raw`
+ /\_/\\
+( ^o^ )
+ > ^ <
+\|   |/
+ /| |\
+`,
+
+String.raw`
+ /\_/\\
+( -.- )
+ / ^ \
+/|   |\
+/_| |_\
+`
+
+];
+
+let frame = 0;
+
+function dance(){
+
+    cat.textContent = frames[frame];
+
+    const t = Date.now()/120;
+
+    const moveX =
+    Math.sin(t)*90;
+
+    const moveY =
+    Math.cos(t*2)*40;
+
+    const rotate =
+    Math.sin(t*1.5)*25;
+
+    const scaleX =
+    1 + Math.sin(t*2)*0.25;
+
+    const scaleY =
+    1 + Math.cos(t*2)*0.25;
+
+    const skewX =
+    Math.sin(t)*10;
+
+    const skewY =
+    Math.cos(t)*5;
+
+    cat.style.transform = `
+    translate(${moveX}px,${moveY}px)
+    rotate(${rotate}deg)
+    scale(${scaleX},${scaleY})
+    skew(${skewX}deg,${skewY}deg)
+    `;
+
+    frame++;
+
+    if(frame >= frames.length){
+
+        frame = 0;
+    }
+}
+
+setInterval(dance,70);
+
+/* =========================
+   SCREEN SHAKE
+========================= */
+
+setInterval(()=>{
+
+    const x =
+    (Math.random()-0.5)*1.5;
+
+    const y =
+    (Math.random()-0.5)*1.5;
+
+    document.body.style.transform =
+    `translate(${x}px,${y}px)`;
+
+},45);
+
+</script>
+
+</body>
+</html>
